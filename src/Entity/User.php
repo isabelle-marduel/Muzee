@@ -4,12 +4,15 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -41,7 +44,7 @@ class User
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $plainPassword;
+    private $password;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -52,6 +55,16 @@ class User
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $city;
+
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
 
     public function getId(): ?int
     {
@@ -106,14 +119,22 @@ class User
         return $this;
     }
 
-    public function getPlainPassword(): ?string
+    /**
+     * Get the value of password
+     */
+    public function getPassword()
     {
-        return $this->plainPassword;
+        return $this->password;
     }
 
-    public function setPlainPassword(string $plainPassword): self
+    /**
+     * Set the value of password
+     *
+     * @return  self
+     */
+    public function setPassword($password)
     {
-        $this->plainPassword = $plainPassword;
+        $this->passwordEncoder->encodePassword($password);
 
         return $this;
     }
@@ -140,5 +161,20 @@ class User
         $this->city = $city;
 
         return $this;
+    }
+
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
+        return null;
     }
 }
