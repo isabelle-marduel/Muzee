@@ -124,7 +124,7 @@ class User implements UserInterface
      */
     public function setPassword($password)
     {
-        $this->passwordEncoder->encodePassword($password);
+        $this->password = $password;
 
         return $this;
     }
@@ -165,6 +165,6 @@ class User implements UserInterface
 
     public function eraseCredentials()
     {
-        return null;
+
     }
 }
