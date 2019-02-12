@@ -56,16 +56,6 @@ class User implements UserInterface
      */
     private $city;
 
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    private $passwordEncoder;
-
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
-    {
-        $this->passwordEncoder = $passwordEncoder;
-    }
-
     public function getId(): ?int
     {
         return $this->id;
