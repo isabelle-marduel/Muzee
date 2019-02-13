@@ -5,10 +5,13 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity("username")
+ * @UniqueEntity("email")
  */
 class User extends \DateTime implements UserInterface
 {
@@ -21,6 +24,8 @@ class User extends \DateTime implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\NotBlank()
+     * @Assert\Length(min=6, max=30)
      */
     private $username;
 
@@ -36,21 +41,40 @@ class User extends \DateTime implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Email()
+     * @Assert\Length(min=6, max=255)
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Regex(
+     *      pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9].{8,})/",
+     *      message="Le mot de passe doit contenir au minimum 8 caractères, une majuscule, une minuscule et un chiffre."
+     * )
      */
     private $password;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Expression(
+     *      "this.getPassword() === this.getRetypedPassword()",
+     *      message = "Les mots de passe sont différents"
+     * )
+     */
+    private $retypePassword;
+
+    /**
      * @ORM\Column(type="date", nullable=true)
+     * @Assert\NotBlank()
      */
     private $birthdate;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @Assert\NotBlank()
      */
     private $city;
 
@@ -107,19 +131,11 @@ class User extends \DateTime implements UserInterface
         return $this;
     }
 
-    /**
-     * Get the value of password
-     */
     public function getPassword()
     {
         return $this->password;
     }
 
-    /**
-     * Set the value of password
-     *
-     * @return  self
-     */
     public function setPassword($password)
     {
         $this->password = $password;
@@ -164,5 +180,17 @@ class User extends \DateTime implements UserInterface
     public function eraseCredentials()
     {
 
+    }
+
+    public function getRetypePassword()
+    {
+        return $this->retypePassword;
+    }
+
+    public function setRetypePassword($retypePassword)
+    {
+        $this->retypePassword = $retypePassword;
+
+        return $this;
     }
 }
