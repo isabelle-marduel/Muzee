@@ -38,7 +38,7 @@ class AppFixtures extends Fixture
                 $user,
                 $this->faker->password
             ));
-            $user->setBirthdate(new \DateTimeInterface($this->faker->date));
+            $user->setBirthdate(new \DateTime($this->faker->date('Y-m-d')));
             $user->setCity($this->faker->city);
 
             $manager->persist($user);
