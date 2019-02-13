@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventSubcriber;
+namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -13,6 +13,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class PasswordHashSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @var UserPasswordEncoderInterface
+     */
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->passwordEncoder = $passwordEncoder;
