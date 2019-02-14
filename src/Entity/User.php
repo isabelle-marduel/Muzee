@@ -6,12 +6,15 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity("username")
- * @UniqueEntity("email")
+ * @UniqueEntity("username",
+ *      message="Ce pseudo est déjà utilisé.")
+ * @UniqueEntity("email",
+ *      message="Cet email est déjà utilisé.")
  */
 class User extends \DateTime implements UserInterface
 {
