@@ -46,7 +46,9 @@ class User extends \DateTime implements UserInterface
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Email()
-     * @Assert\Length(min=6, max=255)
+     * @Assert\Length(min=6, max=255,
+     *      minMessage="L'email doit contneir au minimum 6 caractères"
+     * )
      */
     private $email;
 
@@ -71,13 +73,11 @@ class User extends \DateTime implements UserInterface
 
     /**
      * @ORM\Column(type="date", nullable=true)
-     * @Assert\NotBlank()
      */
     private $birthdate;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
-     * @Assert\NotBlank()
      */
     private $city;
 
