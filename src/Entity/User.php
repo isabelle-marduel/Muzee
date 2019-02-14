@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity("email",
  *      message="Cet email est déjà utilisé.")
  */
-class User extends \DateTime implements UserInterface
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -56,7 +56,7 @@ class User extends \DateTime implements UserInterface
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Regex(
-     *      pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9].{8,})/",
+     *      pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,}/",
      *      message="Le mot de passe doit contenir au minimum 8 caractères, une majuscule, une minuscule et un chiffre."
      * )
      */
@@ -65,7 +65,7 @@ class User extends \DateTime implements UserInterface
     /**
      * @Assert\NotBlank()
      * @Assert\Expression(
-     *      "this.getPassword() === this.getRetypedPassword()",
+     *      "this.getPassword() === this.getRetypePassword()",
      *      message = "Les mots de passe sont différents"
      * )
      */
