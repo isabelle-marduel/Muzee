@@ -65,11 +65,11 @@ class User implements UserInterface
     /**
      * @Assert\NotBlank()
      * @Assert\Expression(
-     *      "this.getPassword() === this.getRetypePassword()",
+     *      "this.getPassword() === this.getRetypedPassword()",
      *      message = "Les mots de passe sont différents"
      * )
      */
-    private $retypePassword;
+    private $retypedPassword;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -185,14 +185,14 @@ class User implements UserInterface
 
     }
 
-    public function getRetypePassword()
+    public function getRetypedPassword()
     {
-        return $this->retypePassword;
+        return $this->retypedPassword;
     }
 
-    public function setRetypePassword($retypePassword)
+    public function setRetypedPassword($retypedPassword)
     {
-        $this->retypePassword = $retypePassword;
+        $this->retypedPassword = $retypedPassword;
 
         return $this;
     }
