@@ -1,12 +1,8 @@
 security:
-    #encodage du mot de passe pour User
-    encoders:
-        App\Entity\User:
-            algorithm: bcrypt
-
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    encoders:
+        App\Entity\User: bcrypt
     providers:
-        in_memory: { memory: ~ }
         database:
             entity:
                 class: App\Entity\User
@@ -29,7 +25,6 @@ security:
             guard:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
-
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
