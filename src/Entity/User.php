@@ -9,7 +9,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      itemOperations={
+ *          "get"={
+ *              "access_control"="is_granted('IS_AUTHENTICATED_FULLY')"
+ *          }
+ *      }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity("username",
  *      message="Ce pseudo est déjà utilisé.")
