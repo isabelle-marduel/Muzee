@@ -66,7 +66,12 @@ class PieceOfArt
     /**
      * @ORM\Column(type="float")
      */
-    private $geolocation;
+    private $latitude;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $longitude;
 
     public function getId(): ?int
     {
@@ -181,14 +186,26 @@ class PieceOfArt
         return $this;
     }
 
-    public function getGeolocation(): ?float
+    public function getLatitude()
     {
-        return $this->geolocation;
+        return $this->latitude;
     }
 
-    public function setGeolocation(float $geolocation): self
+    public function setLatitude($latitude)
     {
-        $this->geolocation = $geolocation;
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude($longitude)
+    {
+        $this->longitude = $longitude;
 
         return $this;
     }
