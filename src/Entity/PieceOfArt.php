@@ -3,7 +3,10 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiProperty;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ApiResource()
@@ -72,6 +75,14 @@ class PieceOfArt
      * @ORM\Column(type="float")
      */
     private $longitude;
+
+    /**
+     * @var MediaObject|null
+     * @ORM\ManyToOne(targetEntity="App\Entity\MediaObject")
+     * @ORM\JoinColumn(nullable=true)
+     * @ApiProperty(iri="http://schema.org/image")
+     */
+    public $image;
 
     public function getId(): ?int
     {
