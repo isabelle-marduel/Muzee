@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -12,9 +13,41 @@ use App\Entity\Image;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      attributes={"order"={"id" : "DESC"}},
+ * )
+ * @ApiFilter(
+ *      SearchFilter::class,
+ *      properties={
+ *          "id": "exact",
+ *          "title": "partial",
+ *          "subtitle": "partial",
+ *          "author": "partial",
+ *          "datation": "partial",
+ *          "origin": "partial",
+ *          "originDetail": "partial",
+ *          "material": "partial",
+ *          "content": "partial",
+ *      }
+ * )
+ * @ApiFilter(RangeFilter::class, properties={"id"})
+ * @ApiFilter(
+ *      OrderFilter::class,
+ *      properties={
+ *          "title",
+ *          "subtitle",
+ *          "author",
+ *          "datation",
+ *          "origin",
+ *          "originDetail",
+ *          "material"
+ *      }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\PieceOfArtRepository")
  */
 class PieceOfArt
@@ -231,18 +264,6 @@ class PieceOfArt
         return $this;
     }
 
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    public function setImage($image)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
     public function getImages(): Collection
     {
         return $this->images;
@@ -250,11 +271,11 @@ class PieceOfArt
 
     public function addImage(Image $image)
     {
-        $this->images = add($image);
+        $this->images->add($image);
     }
 
     public function removeImage(Image $image)
     {
-        $this->images = removeElement($image);
+        $this->images->removeElement($image);
     }
 }
