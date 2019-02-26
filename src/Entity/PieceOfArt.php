@@ -100,7 +100,7 @@ class PieceOfArt
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Sizes;
+    private $sizes;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -124,6 +124,12 @@ class PieceOfArt
      * @Groups({"post"})
      */
     private $images;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Museum", inversedBy="piecesOfArt")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $museum;
 
     public function __construct()
     {
@@ -221,12 +227,12 @@ class PieceOfArt
 
     public function getSizes(): ?string
     {
-        return $this->Sizes;
+        return $this->sizes;
     }
 
-    public function setSizes(string $Sizes): self
+    public function setSizes(string $sizes): self
     {
-        $this->Sizes = $Sizes;
+        $this->sizes = $sizes;
 
         return $this;
     }
@@ -280,5 +286,17 @@ class PieceOfArt
     public function removeImage(Image $image)
     {
         $this->images->removeElement($image);
+    }
+
+    public function getMuseum(): ?Museum
+    {
+        return $this->museum;
+    }
+
+    public function setMuseum(?Museum $museum): self
+    {
+        $this->museum = $museum;
+
+        return $this;
     }
 }
