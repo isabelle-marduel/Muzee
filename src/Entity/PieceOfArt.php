@@ -32,7 +32,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
  *          "origin": "partial",
  *          "originDetail": "partial",
  *          "material": "partial",
- *          "content": "partial",
+ *          "latitude": "exact",
+ *          "longitude": "exact"
  *      }
  * )
  * @ApiFilter(RangeFilter::class, properties={"id"})
@@ -45,7 +46,9 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
  *          "datation",
  *          "origin",
  *          "originDetail",
- *          "material"
+ *          "material",
+ *          "latitude",
+ *          "longitude"
  *      }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\PieceOfArtRepository")
