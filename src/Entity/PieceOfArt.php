@@ -127,7 +127,7 @@ class PieceOfArt
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Museum", inversedBy="piecesOfArt")
-     * @ORM\JoinColumn(nullable=false, onDelete="SET NULL")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $museum;
 
@@ -137,9 +137,27 @@ class PieceOfArt
      */
     private $mainImage;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Video")
+     * @ORM\JoinTable()
+     * @ApiSubresource()
+     * @Groups({"post"})
+     */
+    private $videos;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Document")
+     * @ORM\JoinTable()
+     * @ApiSubresource()
+     * @Groups({"post"})
+     */
+    private $documents;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->videos = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -286,12 +304,20 @@ class PieceOfArt
 
     public function addImage(Image $image)
     {
-        $this->images->add($image);
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+        }
+
+        return $this;
     }
 
     public function removeImage(Image $image)
     {
-        $this->images->removeElement($image);
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+        }
+
+        return $this;
     }
 
     public function getMuseum(): ?Museum
@@ -314,6 +340,58 @@ class PieceOfArt
     public function setMainImage(Image $mainImage): self
     {
         $this->mainImage = $mainImage;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Video[]
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(Video $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Video $video): self
+    {
+        if ($this->videos->contains($video)) {
+            $this->videos->removeElement($video);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Document[]
+     */
+    public function getDocuments(): Collection
+    {
+        return $this->documents;
+    }
+
+    public function addDocument(Document $document): self
+    {
+        if (!$this->documents->contains($document)) {
+            $this->documents[] = $document;
+        }
+
+        return $this;
+    }
+
+    public function removeDocument(Document $document): self
+    {
+        if ($this->documents->contains($document)) {
+            $this->documents->removeElement($document);
+        }
 
         return $this;
     }

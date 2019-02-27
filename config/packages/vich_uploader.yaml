@@ -2,11 +2,16 @@ vich_uploader:
     db_driver: orm
 
     mappings:
-        media_object:
-            uri_prefix: /media
-            upload_destination: '%kernel.project_dir%/public/media'
         images:
             uri_prefix: /images
             upload_destination: '%kernel.project_dir%/public/images'
             # Decide how uploaded files would be renamed
+            namer: Vich\UploaderBundle\Naming\OrignameNamer
+        videos:
+            uri_prefix: /videos
+            upload_destination: '%kernel.project_dir%/public/videos'
+            namer: Vich\UploaderBundle\Naming\OrignameNamer
+        documents:
+            uri_prefix: /documents
+            upload_destination: '%kernel.project_dir%/public/documents'
             namer: Vich\UploaderBundle\Naming\OrignameNamer

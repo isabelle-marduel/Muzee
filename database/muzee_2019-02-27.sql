@@ -7,7 +7,7 @@
 #
 # Hôte: 127.0.0.1 (MySQL 5.7.25)
 # Base de données: muzee
-# Temps de génération: 2019-02-26 15:17:52 +0000
+# Temps de génération: 2019-02-27 15:25:50 +0000
 # ************************************************************
 
 
@@ -36,13 +36,12 @@ LOCK TABLES `image` WRITE;
 
 INSERT INTO `image` (`id`, `url`)
 VALUES
-	(1,'5c73ec6228b7d268252314.jpg'),
-	(2,'5c73eea6e369d537334019.jpg'),
 	(3,'5c750dd68a886646471335.png'),
 	(4,'5c7510fc34858386202399.jpg'),
 	(5,'5c7514c24c6f3282747325.png'),
 	(6,'5c751b2f3e503393441090.png'),
-	(7,'5c75209016280063235967.jpg');
+	(7,'5c75209016280063235967.jpg'),
+	(8,'5c769f0f32653_gou.jpg');
 
 /*!40000 ALTER TABLE `image` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -141,21 +140,24 @@ CREATE TABLE `piece_of_art` (
   `latitude` double NOT NULL,
   `longitude` double NOT NULL,
   `museum_id` int(11) DEFAULT NULL,
+  `main_image_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_147A8522E4873418` (`main_image_id`),
   KEY `IDX_147A85224B52E5B5` (`museum_id`),
-  CONSTRAINT `FK_147A85224B52E5B5` FOREIGN KEY (`museum_id`) REFERENCES `museum` (`id`)
+  CONSTRAINT `FK_147A85224B52E5B5` FOREIGN KEY (`museum_id`) REFERENCES `museum` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `FK_147A8522E4873418` FOREIGN KEY (`main_image_id`) REFERENCES `image` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 LOCK TABLES `piece_of_art` WRITE;
 /*!40000 ALTER TABLE `piece_of_art` DISABLE KEYS */;
 
-INSERT INTO `piece_of_art` (`id`, `title`, `subtitle`, `author`, `datation`, `origin`, `origin_detail`, `material`, `sizes`, `content`, `latitude`, `longitude`, `museum_id`)
+INSERT INTO `piece_of_art` (`id`, `title`, `subtitle`, `author`, `datation`, `origin`, `origin_detail`, `material`, `sizes`, `content`, `latitude`, `longitude`, `museum_id`, `main_image_id`)
 VALUES
-	(4,'Salière','style Edo','','16e siècle','Nigéria, Afrique','Owo, royaume du Bénin','ivoire d\'éléphant','26 x 8 x 8,5 cm','Cette salière à deux coupes du 16e siècle fut commandée à un artiste par des commerçants Portugais. Ce type de sculpture en ivoire était destiné à l’élite européenne. Les ivoires afro-portugais de la Renaissance mêlent généralement une iconographie européenne à une facture africain, ici de style edo du royaume de Bénin (Nigeria actuel). Sur cette salière sculptée, les soldats portugais et la petite caravelle à l’imposant poste de vigie indiquent un sujet européen.',8.8608889,2.297894,1),
-	(5,'Statue androgyne','style Djennenké','','9e-10e siècle','Mali, Afrique','Pré-Dogon','bois','210 x 37 x 22 cm','Cette grande sculpture ancienne en bois sculpté combine un visage masculin et un corps féminin. La présence des parures sur cette image androgyne indique un homme de haut rang de l\'ancien empire de Ghana (Mali actuel). Les seins féminins évoquent une allégorie de la protection, de la fécondité et par extension de la paix sur la communauté. Ce chef d’œuvre du Mali témoigne du style d’une population qui émigra aux alentours du 9e siècle de la région de Djenné vers le sud, sur le plateau de Bandiagara dans l’actuel pays dogon',8.8608889,2.297894,1),
-	(6,'Figure du théâtre d\'ombre','Le dieu Phra Naraï (Vishnu)','','Première moitié du 20e siècle','Thaïlande, Asie','','cuir découpé et peint','68 x 35 x 1 cm','Les figurines de cuir du théâtre d\'ombres se manipulent contre un écran rétroéclairé. Leur esthétique repose sur l’équilibre entre les pleins et les vides, pour produire le contraste entre ombre et lumière. Ce personnage très ajouré brille tout particulièrement durant le spectacle. Il représente Phra Naraï, une divinité associée à la royauté.',8.8608889,2.297894,1),
-	(7,'Tenture de temple bouddhique','','','Fin du 18e siècle','Cambodge, Asie','','peinture sur toile de coton','192 x 86,4 cm','Cette tenture de temple de la fin du 18ème siècle est dans un état de conservation exceptionnel. Les scènes étaient déroulées par les moines pour illustrer les dix dernières vies antérieures du Bouddha.',8.8608889,2.297894,1),
-	(8,'Sculpture du dieu Gou','','Akati Ekplékendo','1858','Bénin, Afrique','Population Fon, Abomey','fer, bois','165 cm de haut','Gou, chez les Fon, est le Dieu de la guerre et du métal. Cette sculpture est attribuée à Akati Ekplékendo qui l’aurait réalisée avant 1858 au début du règne du roi Glélé. La statue fut exposée au musée d’ethnographie du Trocadéro après la prise du palais d’Abomey par les troupes françaises, en 1894.',48.8606111,2.337644,2);
+	(4,'Salière','style Edo','','16e siècle','Nigéria, Afrique','Owo, royaume du Bénin','ivoire d\'éléphant','26 x 8 x 8,5 cm','Cette salière à deux coupes du 16e siècle fut commandée à un artiste par des commerçants Portugais. Ce type de sculpture en ivoire était destiné à l’élite européenne. Les ivoires afro-portugais de la Renaissance mêlent généralement une iconographie européenne à une facture africain, ici de style edo du royaume de Bénin (Nigeria actuel). Sur cette salière sculptée, les soldats portugais et la petite caravelle à l’imposant poste de vigie indiquent un sujet européen.',48.8608889,2.297894,1,3),
+	(5,'Statue androgyne','style Djennenké','','9e-10e siècle','Mali, Afrique','Pré-Dogon','bois','210 x 37 x 22 cm','Cette grande sculpture ancienne en bois sculpté combine un visage masculin et un corps féminin. La présence des parures sur cette image androgyne indique un homme de haut rang de l\'ancien empire de Ghana (Mali actuel). Les seins féminins évoquent une allégorie de la protection, de la fécondité et par extension de la paix sur la communauté. Ce chef d’œuvre du Mali témoigne du style d’une population qui émigra aux alentours du 9e siècle de la région de Djenné vers le sud, sur le plateau de Bandiagara dans l’actuel pays dogon',48.8608889,2.297894,1,4),
+	(6,'Figure du théâtre d\'ombre','Le dieu Phra Naraï (Vishnu)','','Première moitié du 20e siècle','Thaïlande, Asie','','cuir découpé et peint','68 x 35 x 1 cm','Les figurines de cuir du théâtre d\'ombres se manipulent contre un écran rétroéclairé. Leur esthétique repose sur l’équilibre entre les pleins et les vides, pour produire le contraste entre ombre et lumière. Ce personnage très ajouré brille tout particulièrement durant le spectacle. Il représente Phra Naraï, une divinité associée à la royauté.',48.8608889,2.297894,1,5),
+	(7,'Tenture de temple bouddhique','','','Fin du 18e siècle','Cambodge, Asie','','peinture sur toile de coton','192 x 86,4 cm','Cette tenture de temple de la fin du 18ème siècle est dans un état de conservation exceptionnel. Les scènes étaient déroulées par les moines pour illustrer les dix dernières vies antérieures du Bouddha.',48.8608889,2.297894,1,6),
+	(8,'Sculpture du dieu Gou','','Akati Ekplékendo','1858','Bénin, Afrique','Population Fon, Abomey','fer, bois','165 cm de haut','Gou, chez les Fon, est le Dieu de la guerre et du métal. Cette sculpture est attribuée à Akati Ekplékendo qui l’aurait réalisée avant 1858 au début du règne du roi Glélé. La statue fut exposée au musée d’ethnographie du Trocadéro après la prise du palais d’Abomey par les troupes françaises, en 1894.',48.8606111,2.337644,2,7);
 
 /*!40000 ALTER TABLE `piece_of_art` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -176,6 +178,20 @@ CREATE TABLE `piece_of_art_image` (
   CONSTRAINT `FK_63CA3848ABACA386` FOREIGN KEY (`piece_of_art_id`) REFERENCES `piece_of_art` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+LOCK TABLES `piece_of_art_image` WRITE;
+/*!40000 ALTER TABLE `piece_of_art_image` DISABLE KEYS */;
+
+INSERT INTO `piece_of_art_image` (`piece_of_art_id`, `image_id`)
+VALUES
+	(4,3),
+	(4,4),
+	(4,5),
+	(6,5),
+	(7,6),
+	(8,7);
+
+/*!40000 ALTER TABLE `piece_of_art_image` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Affichage de la table user
