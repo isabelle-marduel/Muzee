@@ -127,9 +127,15 @@ class PieceOfArt
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Museum", inversedBy="piecesOfArt")
-     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     * @ORM\JoinColumn(nullable=false, onDelete="SET NULL")
      */
     private $museum;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $mainImage;
 
     public function __construct()
     {
@@ -296,6 +302,18 @@ class PieceOfArt
     public function setMuseum(?Museum $museum): self
     {
         $this->museum = $museum;
+
+        return $this;
+    }
+
+    public function getMainImage(): ?Image
+    {
+        return $this->mainImage;
+    }
+
+    public function setMainImage(Image $mainImage): self
+    {
+        $this->mainImage = $mainImage;
 
         return $this;
     }
