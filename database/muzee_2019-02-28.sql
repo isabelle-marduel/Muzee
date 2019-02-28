@@ -7,7 +7,7 @@
 #
 # Hôte: 127.0.0.1 (MySQL 5.7.25)
 # Base de données: muzee
-# Temps de génération: 2019-02-27 15:25:50 +0000
+# Temps de génération: 2019-02-28 16:39:40 +0000
 # ************************************************************
 
 
@@ -18,6 +18,19 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+# Affichage de la table document
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `document`;
+
+CREATE TABLE `document` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 
 # Affichage de la table image
@@ -44,29 +57,6 @@ VALUES
 	(8,'5c769f0f32653_gou.jpg');
 
 /*!40000 ALTER TABLE `image` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Affichage de la table media_object
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `media_object`;
-
-CREATE TABLE `media_object` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `content_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-LOCK TABLES `media_object` WRITE;
-/*!40000 ALTER TABLE `media_object` DISABLE KEYS */;
-
-INSERT INTO `media_object` (`id`, `content_url`)
-VALUES
-	(1,'pharell_mini.jpg'),
-	(2,'pharell_mini.jpg');
-
-/*!40000 ALTER TABLE `media_object` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
@@ -163,6 +153,23 @@ VALUES
 UNLOCK TABLES;
 
 
+# Affichage de la table piece_of_art_document
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `piece_of_art_document`;
+
+CREATE TABLE `piece_of_art_document` (
+  `piece_of_art_id` int(11) NOT NULL,
+  `document_id` int(11) NOT NULL,
+  PRIMARY KEY (`piece_of_art_id`,`document_id`),
+  KEY `IDX_912A2165ABACA386` (`piece_of_art_id`),
+  KEY `IDX_912A2165C33F7837` (`document_id`),
+  CONSTRAINT `FK_912A2165ABACA386` FOREIGN KEY (`piece_of_art_id`) REFERENCES `piece_of_art` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_912A2165C33F7837` FOREIGN KEY (`document_id`) REFERENCES `document` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+
 # Affichage de la table piece_of_art_image
 # ------------------------------------------------------------
 
@@ -183,15 +190,30 @@ LOCK TABLES `piece_of_art_image` WRITE;
 
 INSERT INTO `piece_of_art_image` (`piece_of_art_id`, `image_id`)
 VALUES
-	(4,3),
-	(4,4),
-	(4,5),
+	(4,7),
 	(6,5),
 	(7,6),
 	(8,7);
 
 /*!40000 ALTER TABLE `piece_of_art_image` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Affichage de la table piece_of_art_video
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `piece_of_art_video`;
+
+CREATE TABLE `piece_of_art_video` (
+  `piece_of_art_id` int(11) NOT NULL,
+  `video_id` int(11) NOT NULL,
+  PRIMARY KEY (`piece_of_art_id`,`video_id`),
+  KEY `IDX_DA30E63BABACA386` (`piece_of_art_id`),
+  KEY `IDX_DA30E63B29C1004E` (`video_id`),
+  CONSTRAINT `FK_DA30E63B29C1004E` FOREIGN KEY (`video_id`) REFERENCES `video` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_DA30E63BABACA386` FOREIGN KEY (`piece_of_art_id`) REFERENCES `piece_of_art` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 
 # Affichage de la table user
@@ -242,6 +264,19 @@ VALUES
 
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Affichage de la table video
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `video`;
+
+CREATE TABLE `video` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 
 
