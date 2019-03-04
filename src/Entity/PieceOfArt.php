@@ -20,6 +20,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 /**
  * @ApiResource(
  *      attributes={"order"={"id" : "DESC"}},
+ *      normalizationContext={"groups"={"read"}},
  * )
  * @ApiFilter(
  *      SearchFilter::class,
@@ -64,16 +65,19 @@ class PieceOfArt
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"read"})
      */
     private $subtitle;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"read"})
      */
     private $author;
 
